@@ -1,1 +1,1 @@
-full documentation can be found at : https://github.com/tsanch3z/pymailgun
+full documentation can be found at : https://github.com/cogniteev/pymailgun
