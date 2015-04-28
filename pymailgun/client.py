@@ -37,8 +37,9 @@ class Client(object):
         @param files: list of file paths to put in attachment
         @return: the mailgun's API response
         """
-        data = {'from': sender, 'to': to, 'subject': subject, 'text': text,
-                'html': html if html else text}
+        data = {'from': sender, 'to': to, 'subject': subject, 'text': text}
+        if html:
+            data['html'] = html
 
         if cc:
             data['cc'] = cc
