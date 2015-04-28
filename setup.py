@@ -6,7 +6,7 @@ from distutils.core import setup
 
 setup(
     name='pymailgun',
-    version='1.0.1',
+    version='1.1',
     author='Tony Sanchez',
     author_email='mail.tsanchez@gmail.com',
     url='https://github.com/cogniteev/pymailgun',
