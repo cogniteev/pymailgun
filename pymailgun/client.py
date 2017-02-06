@@ -57,12 +57,12 @@ class Client(object):
         if bcc:
             data['bcc'] = bcc
 
-        if files and isinstance(files, list):
-            attached_files = []
+        attached_files = []
+        if files:
+            if not isinstance(files, list):
+                files = [files]
             for f in files:
-                attached_files.append(('attachment', open(f)))
-            return self.__request('post', self.domain, 'messages', data=data,
-                                  files=attached_files)
+                attached_files.append(('attachment', open(f, 'rb')))
 
         return self.__request('post', '{}/{}'.format(self.domain, 'messages'),
-                              data=data)
+                              data=data, files=attached_files)
