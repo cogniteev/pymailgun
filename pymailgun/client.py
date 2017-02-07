@@ -8,14 +8,19 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class MailgunCredentialsError(Exception):
+class MailgunError(Exception):
+    """ Base class for all Mailgun error. """
+    pass
+
+
+class MailgunCredentialsError(MailgunError):
     """
     Exception to be raised in case the provided credentials are invalid.
     """
     pass
 
 
-class MailgunDomainError(Exception):
+class MailgunDomainError(MailgunError):
     """
     Exception to be raised in case the provided domain in not available.
     """
@@ -100,7 +105,11 @@ class Client(object):
         resp = requests.request(method, url, data=data, auth=auth, files=files)
         if resp.status_code == 401:
             raise MailgunCredentialsError('Invalid credentials')
-        resp.raise_for_status()  # Raise other possible errors
+        # Raise other possible errors
+        try:
+            resp.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            raise MailgunError(e)
         json_resp = resp.json()
         self._CACHE[cache_index] = json_resp
         return json_resp
