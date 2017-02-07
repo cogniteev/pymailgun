@@ -4,6 +4,13 @@ The Mailgun client
 import requests
 
 
+class MailgunCredentialsError(Exception):
+    """
+    Exception to be raised in case the provided credentials are invalid.
+    """
+    pass
+
+
 class Client(object):
     """ The client for mailgun's API
 
@@ -14,13 +21,17 @@ class Client(object):
     def __init__(self, key, domain):
         self.api_key = key
         self.domain = domain
+        self.check_credentials()
 
-    def __request(self, method, path, resource, data=None, files=None):
+    def check_credentials(self):
+        """ Check the provided credentials """
+        resp = self.__request('get', 'domains')
+        if resp.status_code == 401:
+            raise MailgunCredentialsError('Invalid credentials')
 
-        url = 'https://api.mailgun.net/v2/%s/%s' % (path, resource)
-
+    def __request(self, method, path, data=None, files=None):
+        url = 'https://api.mailgun.net/v2/{}'.format(path)
         auth = ('api', self.api_key)
-
         return requests.request(method, url, data=data, auth=auth, files=files)
 
     def send_mail(self, sender, to, subject, text, html=None, cc=None, bcc=None,
@@ -53,4 +64,5 @@ class Client(object):
             return self.__request('post', self.domain, 'messages', data=data,
                                   files=attached_files)
 
-        return self.__request('post', self.domain, 'messages', data=data)
+        return self.__request('post', '{}/{}'.format(self.domain, 'messages'),
+                              data=data)
