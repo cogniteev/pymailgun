@@ -1,8 +1,7 @@
 """ Setup file for distutils
 
 """
-
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name='pymailgun',
