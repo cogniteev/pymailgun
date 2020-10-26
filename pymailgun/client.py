@@ -4,7 +4,7 @@ The Mailgun client
 import requests
 
 
-class Client(object):
+class Client:
     """ The client for mailgun's API
 
     @param key: the api key
