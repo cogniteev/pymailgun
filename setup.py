@@ -24,6 +24,5 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Environment :: Web Environment',
         'Development Status :: 4 - Beta'
-    ],
-    install_requires='requests>=2.2.1'
+    ]
 )
