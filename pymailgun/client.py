@@ -24,7 +24,7 @@ class Client:
         return requests.request(method, url, data=data, auth=auth, files=files)
 
     def send_mail(self, sender, to, subject, text, html=None, cc=None, bcc=None,
-                  files=None):
+                  files=None, in_reply_to=None):
         """ Sends an email using the mailgun API
 
         @param sender: sender's email address
@@ -35,6 +35,7 @@ class Client:
         @param text: email's plain text content
         @param html: email's html content
         @param files: list of file paths to put in attachment
+        @param in_reply_to: id of the mail to respond to
         @return: the mailgun's API response
         """
         data = {'from': sender, 'to': to, 'subject': subject, 'text': text}
@@ -45,6 +46,8 @@ class Client:
             data['cc'] = cc
         if bcc:
             data['bcc'] = bcc
+        if in_reply_to:
+            data['h:In-Reply-To'] = in_reply_to
 
         if files and isinstance(files, list):
             attached_files = []
