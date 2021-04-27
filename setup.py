@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='pymailgun',
-    version='1.3',
+    version='1.4',
     author='Tony Sanchez',
     author_email='mail.tsanchez@gmail.com',
     url='https://github.com/cogniteev/pymailgun',
