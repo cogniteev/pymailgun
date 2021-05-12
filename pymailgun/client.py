@@ -55,7 +55,9 @@ class Client:
         if files and isinstance(files, list):
             attached_files = []
             for f in files:
-                attached_files.append(('attachment', open(f)))
+                if isinstance(f, str):
+                    f = open(f)
+                attached_files.append(('attachment', f))
             return self.__request('post', self.domain, 'messages', data=data,
                                   files=attached_files)
 
